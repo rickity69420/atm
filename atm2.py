@@ -82,7 +82,7 @@ class StartPage(tk.Frame):
                incorrect_password_label['text']=''
                controller.show_frame('MenuPage')
            else:
-               incorrect_password_label['text']='Incorrect Password'
+               incorrect_password_label['text']='INCORRECT PASSWORD'
                 
         enter_button = tk.Button(self,
                                                      text='Enter',
@@ -227,7 +227,11 @@ class WithdrawPage(tk.Frame):
 
         def withdraw(amount):
             global current_balance
+            if int(amount)>current_balance:
+                messagebox.showinfo(title='Check Balance', message='INSUFFICIENT BALANCE')
+                return
             current_balance -= amount
+            messagebox.showinfo(title='Withdrawn', message='MONEY SUCCESSFULLY WITHDRAWN')
             controller.shared_data['Balance'].set(current_balance)
             controller.show_frame('MenuPage')
             
@@ -285,7 +289,11 @@ class WithdrawPage(tk.Frame):
 
         def other_amount(_):
             global current_balance
+            if int(cash.get())>current_balance:
+                messagebox.showinfo(title='Check Balance', message='INSUFFICIENT BALANCE')
+                return
             current_balance -= int(cash.get())
+            messagebox.showinfo(title='Withdrawn', message='MONEY SUCCESSFULLY WITHDRAWN')
             controller.shared_data['Balance'].set(current_balance)
             cash.set('')
             controller.show_frame('MenuPage')
@@ -340,6 +348,7 @@ class DepositPage(tk.Frame):
         def deposit_cash():
             global current_balance
             current_balance += int(cash.get())
+            messagebox.showinfo(title='Money Deposited', message='MONEY SUCCESSFULLY DEPOSITED')
             controller.shared_data['Balance'].set(current_balance)
             controller.show_frame('MenuPage')
             cash.set('')
@@ -366,7 +375,7 @@ class DepositPage(tk.Frame):
                                                     borderwidth=3,
                                                     width=30,
                                                     height=2)
-        menu_button.grid(row=6,column=0,pady=20,padx=657)
+        menu_button.grid(row=6,column=0,pady=10,padx=657)
 
         two_tone_label = tk.Label(self,bg='#1E6068')
         two_tone_label.pack(fill='both',expand=True)
@@ -393,7 +402,7 @@ class BalancePage(tk.Frame):
         balance_label = tk.Label(self,
                                                   textvariable=controller.shared_data['Balance'],
                                                   font=('orbitron',60),
-                                                  fg='white',
+                                                  fg='#F06DF6',
                                                   bg='#1E6068',
                                                   anchor='w')
         balance_label.pack(fill='x')
@@ -465,11 +474,11 @@ class ChangePinPage(tk.Frame):
                     pin=newpin
                     controller.show_frame('StartPage')
                 else:
-                    messagebox.showinfo(title='Check Please', message='New Password and Renter Password does not match')
+                    messagebox.showinfo(title='Check Please', message='NEW PASSWORDS DO NOT MATCH')
             else:
-                messagebox.showinfo(title='Wrong Password', message='Old password does not match')
+                messagebox.showinfo(title='Wrong Password', message='INCORRECT OLD PASSWORD')
 
-        oldPassword = tk.Label(button_frame, text="Your Old Password",font=('orbitron',15),fg='yellow',bg='#1E6068')
+        oldPassword = tk.Label(button_frame, text="YOUR OLD PASSWORD",font=('orbitron',15),fg='yellow',bg='#1E6068')
         oldPassword.grid(row=2,column=0,pady=5)
         oldPasswordEntry = tk.Entry(button_frame, width=20, bd=1,font=('Arial 24'))
         oldPasswordEntry.grid(row=3,column=0,pady=5)
@@ -477,7 +486,7 @@ class ChangePinPage(tk.Frame):
         EmptyField = tk.Label(button_frame, text="",bg='#1E6068')
         EmptyField.grid(row=4,column=0,pady=5)
 
-        newPassword = tk.Label(button_frame, text="Your New Password",font=('orbitron',15),fg='yellow',bg='#1E6068')
+        newPassword = tk.Label(button_frame, text="YOUR NEW PASSWORD",font=('orbitron',15),fg='yellow',bg='#1E6068')
         newPassword.grid(row=5,column=0,pady=5)
         newPasswordEntry = tk.Entry(button_frame, width=20, bd=1,font=('Arial 24'))
         newPasswordEntry.grid(row=6,column=0,pady=5)
@@ -485,7 +494,7 @@ class ChangePinPage(tk.Frame):
         EmptyField2 = tk.Label(button_frame, text="",bg='#1E6068')
         EmptyField2.grid(row=7,column=0,pady=5)
 
-        renewPassword = tk.Label(button_frame, text="Re-Enter New Password",font=('orbitron',15),fg='yellow',bg='#1E6068')
+        renewPassword = tk.Label(button_frame, text="RE-ENTER NEW PASSWORD",font=('orbitron',15),fg='yellow',bg='#1E6068')
         renewPassword.grid(row=8,column=0,pady=5)
         renewPasswordEntry = tk.Entry(button_frame, width=20, bd=1,font=('Arial 24'))
         renewPasswordEntry.grid(row=9,column=0,pady=5)
